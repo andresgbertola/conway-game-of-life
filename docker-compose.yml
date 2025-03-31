@@ -1,0 +1,21 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong@Passw0rd
+
+  api:
+    build:
+      context: ./src
+      dockerfile: GOL.WebApi/Dockerfile
+    container_name: gameoflife-api
+    ports:
+      - "5000:80"
+    environment:
+      - ConnectionStrings__GameOfLifeDbConnection=Server=sqlserver,1433;Database=GameOfLifeDb;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
