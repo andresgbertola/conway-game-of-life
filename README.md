@@ -218,6 +218,31 @@ All exceptions are **logged** with the appropriate log level:
 - Unhandled exceptions are logged with **Error** level.
 - Domain or validation-related issues may be logged with **Warning** or **Information** as needed.
 
+#### Application
+
+##### UpdateBoardStatusCommandHandler
+
+Board state transitions are handled by a single command handler (`UpdateBoardStatusCommandHandler`) that evolves the board by applying the Game of Life rules. The process is as follows:
+
+- **Retrieve Latest State**: The handler fetches the most recent board state from the database.
+- **Compute Next Generation**: It calculates the next generation based on the current live cells.
+- **Detect Final State**: It checks if the new state is final (i.e., stable, oscillatory, or faded away) by comparing state hashes.
+- **Persist New State**: Each new state is saved with its iteration count, hash, and status.
+- **Return Current State**: After processing the specified iterations, the handler returns the current board state. This state may be a final state, or it may simply be the most recent state.
+- **Error on Early Termination**: If the `shortCircuitFinalState` flag is true and a final state is expected but not reached within the allowed iterations, the handler returns a `422 Unprocessable Entity` error. 422 is thrown because it signals that while the request was syntactically valid and processing occurred, the resulting state does not meet the required business criteria.
+
+###### How endpoints calls UpdateBoardStatusCommandHandler
+
+Three endpoints trigger this handler with different parameters:
+
+| Endpoint                                      | Parameters Passed                                  | Behavior Description                                                                                           |
+|-----------------------------------------------|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `POST /api/boardState/{id}/next`              | `iterations = 1`, `shortCircuitFinalState = false` | Advances the board by **one generation** without checking for a final state.                                  |
+| `POST /api/boardState/{id}/next/{steps}`      | `iterations = steps`, `shortCircuitFinalState = false` | Advances the board by **multiple generations** as specified by `{steps}`.                                    |
+| `POST /api/boardState/{id}/final?maxAttempts=n` | `iterations = n`, `shortCircuitFinalState = true`  | Advances up to `n` iterations and stops early if a final state is reached. Returns a `422` error if no final state is reached within `n` iterations. |
+
+This design ensures that each endpoint uses the same logic while allowing flexibility in how many iterations to process and whether to enforce reaching a final state.
+
 #### GameOfLifeService Service Overview
 Instead of iterating through an entire board (which could be vast), the service tracks only **living cells** and their **immediate neighbors**. It does this efficiently by:
 - **Using a list of live cell coordinates** to represent the board state.
@@ -298,6 +323,10 @@ To ensure optimal performance and scalability when querying and updating board s
 - This guarantees that only one record per iteration per board can exist, preventing multiple requests from saving conflicting or duplicate states.
 - As a result, if two parallel processes attempt to compute and persist the same iteration, only one will succeed, preserving the integrity of the board’s evolution, the other, will fail.
 
+## Configuration
+- **Appsettings** has the connection string for the MSSQL Database. This should be replaced by using Azure Key Vault or equivalent.
+- **BoardConfig:MaxIterations**: Defines the maximum number of iterations a client can request for advancing the board state. This configuration option was added to allow adjustments without modifying the code.
+
 ## Enhancements
 - **Performance Optimization**
   - Implement caching in `UpdateBoardStatusCommandHandler` to reduce database queries when checking for existing state hashes.
@@ -349,5 +378,3 @@ To ensure optimal performance and scalability when querying and updating board s
     •	Verify that the board's state has progressed by the expected number of iterations.
 5.	Retrieve the final state of the board:
     •	Request the final state of the board with a maximum of 1000 iterations and verify it matches the expected final state.
-
-## Functional tests:
