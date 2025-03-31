@@ -365,16 +365,20 @@ To ensure optimal performance and scalability when querying and updating board s
 
 ### Integration Tests 
 
-#### BoardStateController
-1.	Create a new board and verify its initial state:
-    •	Create a new board with a specific initial state.
-    •	Retrieve the board state and verify it matches the expected initial state.
-2.	Retrieve the next state of the board:
-    •	Request the next state of the board and verify it matches the expected next state.
-3.	Retrieve the state of the board after a specified number of iterations:
-    •	Request the state of the board after 10 iterations and verify it matches the expected state.
-4.	Attempt to reach the final state with a limited number of iterations:
-    •	Attempt to reach the final state of the board with a maximum of 100 iterations and verify it fails with an UnprocessableEntity status code.
-    •	Verify that the board's state has progressed by the expected number of iterations.
-5.	Retrieve the final state of the board:
-    •	Request the final state of the board with a maximum of 1000 iterations and verify it matches the expected final state.
+#### BoardStateController Tests
+1. **Create a New Board and Verify Its Initial State**
+   - Create a new board with a specified initial configuration.
+   - Retrieve the board state and verify it matches the expected initial state.
+2. **Retrieve the Next State of the Board**
+   - Request the next board state.
+   - Verify that the new state corresponds to the expected next generation.
+3. **Retrieve the Board State After a Specified Number of Iterations**
+   - Request the board state after 10 iterations.
+   - Verify the state matches the expected configuration after 10 generations.
+4. **Attempt to Reach a Final State with a Limited Number of Iterations**
+   - Attempt to advance the board to a final state using a maximum of 100 iterations.
+   - Verify that the request fails with a `422 Unprocessable Entity` status code if a final state is not reached.
+   - Ensure the board's state has progressed by the expected number of iterations.
+5. **Retrieve the Final State of the Board**
+   - Request the final state of the board with a maximum of 1000 iterations.
+   - Verify that the final state returned matches the expected final state.
