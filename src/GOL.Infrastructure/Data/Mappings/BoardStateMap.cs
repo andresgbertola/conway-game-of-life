@@ -8,9 +8,9 @@ namespace GOL.Infrastructure.Data.Mappings
     {
         public BoardStateMap(EntityTypeBuilder<BoardState> entity)
         {
-            // Define the primary key on Id as non-clustered.
+            // Define the primary key on Id as clustered.
             entity.HasKey(b => b.Id)
-                  .IsClustered(false);
+                  .IsClustered(true);
 
             // Required properties.
             entity.Property(b => b.BoardId).IsRequired();
@@ -24,9 +24,9 @@ namespace GOL.Infrastructure.Data.Mappings
             // Ignore the computed property.
             entity.Ignore(b => b.LiveCells);
 
-            // Create a composite clustered index on BoardId and Iteration.
+            // Create a composite non clustered index on BoardId and Iteration.
             entity.HasIndex(b => new { b.BoardId, b.Iteration })
-                  .IsClustered(true)
+                  .IsClustered(false)
                   .IsUnique(true);
 
             // Create a composite non-clustered index for the most common query.

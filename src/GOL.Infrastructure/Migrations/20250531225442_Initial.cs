@@ -25,7 +25,7 @@ namespace GOL.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BoardStates", x => x.Id)
-                        .Annotation("SqlServer:Clustered", false);
+                        .Annotation("SqlServer:Clustered", true);
                 });
 
             migrationBuilder.CreateIndex(
@@ -33,7 +33,7 @@ namespace GOL.Infrastructure.Migrations
                 table: "BoardStates",
                 columns: new[] { "BoardId", "Iteration" },
                 unique: true)
-                .Annotation("SqlServer:Clustered", true);
+                .Annotation("SqlServer:Clustered", false);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BoardStates_BoardId_StateHash_Iteration",

@@ -49,8 +49,8 @@ namespace GOL.Domain.Entities
             if (initialState == null)
                 throw new ArgumentNullException(nameof(initialState));
 
-            Id = Guid.NewGuid();
-            BoardId = boardStateId ?? Guid.NewGuid();
+            Id = Guid.CreateVersion7();
+            BoardId = boardStateId ?? Guid.CreateVersion7();
 
             // The input is already a sparse coordinate list.
             State = initialState.Serialize();
@@ -62,7 +62,7 @@ namespace GOL.Domain.Entities
         /// <summary>
         /// Returns the list of live cell coordinates deserialized from the JSON state.
         /// </summary>
-        public List<CellCoordinates> LiveCells => CellCoordinatesSerializer.Deserialize(State) ?? new List<CellCoordinates>();
+        public List<CellCoordinates> LiveCells => CellCoordinatesSerializer.Deserialize(State) ?? [];
 
         /// <summary>
         /// Computes the board hash using the FNV-1a algorithm on the sorted list of live cell coordinates.

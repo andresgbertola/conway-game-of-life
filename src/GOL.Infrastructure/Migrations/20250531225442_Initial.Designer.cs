@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GOL.Infrastructure.Migrations
 {
     [DbContext(typeof(GOLDbContext))]
-    [Migration("20250331020730_Initial")]
+    [Migration("20250531225442_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace GOL.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.20")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -49,12 +49,12 @@ namespace GOL.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"), false);
+                    SqlServerKeyBuilderExtensions.IsClustered(b.HasKey("Id"));
 
                     b.HasIndex("BoardId", "Iteration")
                         .IsUnique();
 
-                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("BoardId", "Iteration"));
+                    SqlServerIndexBuilderExtensions.IsClustered(b.HasIndex("BoardId", "Iteration"), false);
 
                     b.HasIndex("BoardId", "StateHash", "Iteration");
 

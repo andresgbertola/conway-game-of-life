@@ -6,6 +6,8 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
@@ -23,6 +25,8 @@ builder.Services.AddInfrastructure(configuration);
 builder.Services.AddDomain();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Automatically apply migrations at startup
 using (var scope = app.Services.CreateScope())

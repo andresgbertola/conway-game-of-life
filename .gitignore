@@ -52,3 +52,16 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Visual Studio / VS Code
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# GitHub Copilot
+.vs/**/copilot/
+.vs/**/CopilotIndices/
+.vs/**/*.copilot.*
