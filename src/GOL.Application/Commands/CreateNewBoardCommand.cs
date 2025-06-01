@@ -10,22 +10,7 @@ namespace GOL.Application.Commands
     /// <summary>
     /// Command to create a new board.
     /// </summary>
-    public class CreateNewBoardCommand : IRequest<Guid>
-    {
-        public CreateBoardRequestDto CreateBoardDto { get; }
-
-        /// <summary>
-        /// C-tor.
-        /// </summary>
-        /// <param name="createBoardDto"></param>
-        /// <exception cref="ValidationException"></exception>
-        public CreateNewBoardCommand(CreateBoardRequestDto createBoardDto)
-        {
-            if (createBoardDto is null) throw new ValidationException("Empty body.");
-
-            CreateBoardDto = createBoardDto;
-        }
-    }
+    public sealed record CreateNewBoardCommand(CreateBoardRequestDto CreateBoardDto) : IRequest<Guid>;
 
     /// <summary>
     /// Handler class.
@@ -43,7 +28,7 @@ namespace GOL.Application.Commands
 
         public async Task<Guid> Handle(CreateNewBoardCommand request, CancellationToken cancellationToken)
         {
-            if (request == null) throw new ArgumentNullException(nameof(request));
+            if (request is null) throw new ValidationException("Empty body.");
 
             var validationResult = _validator.Validate(request);
 

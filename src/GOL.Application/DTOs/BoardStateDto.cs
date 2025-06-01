@@ -5,7 +5,7 @@ namespace GOL.Application.DTOs
     /// <summary>
     /// Represents a board with their current state.
     /// </summary>
-    public class BoardStateDto
+    public record BoardStateDto
     {
         /// <summary>
         /// Board identifier.
@@ -15,7 +15,7 @@ namespace GOL.Application.DTOs
         /// <summary>
         /// Living cells.
         /// </summary>
-        public List<CellCoordinates> LiveCells { get; set; }
+        public List<CellCoordinates> LiveCells { get; set; } = [];
 
         /// <summary>
         /// Current state iteration.
@@ -25,6 +25,6 @@ namespace GOL.Application.DTOs
         /// <summary>
         /// Current status of the board.
         /// </summary>
-        public string Status { get; set; }
+        public required string Status { get; set; }
     }
 }

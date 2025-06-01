@@ -11,16 +11,6 @@ namespace GOL.Application.Tests
     public class CreateNewBoardCommandHandlerTests
     {
         [Fact]
-        public void CreateNewBoardCommand_ThrowsValidationException_WhenDtoIsNull()
-        {
-            // Arrange: CreateBoardRequestDto is null.
-            CreateBoardRequestDto dto = null;
-
-            // Act & Assert: Constructor should throw a ValidationException.
-            Assert.Throws<ValidationException>(() => new CreateNewBoardCommand(dto));
-        }
-
-        [Fact]
         public async Task Handle_ThrowsArgumentNullException_WhenRequestIsNull()
         {
             // Arrange
@@ -29,7 +19,7 @@ namespace GOL.Application.Tests
             var handler = new CreateNewBoardCommandHandler(repositoryMock.Object, validatorMock.Object);
 
             // Act & Assert: Passing a null request should throw ArgumentNullException.
-            await Assert.ThrowsAsync<ArgumentNullException>(() => handler.Handle(null, CancellationToken.None));
+            await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(null, CancellationToken.None));
         }
 
         [Fact]

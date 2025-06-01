@@ -9,15 +9,7 @@ namespace GOL.Application.Queries
     /// <summary>
     /// Query to get the last board state.
     /// </summary>
-    public class GetLastBoardStateByIdQuery : IRequest<BoardStateDto>
-    {
-        public readonly Guid Id;
-
-        public GetLastBoardStateByIdQuery(Guid BoardId)
-        {
-            Id = BoardId;
-        }
-    }
+    public sealed record GetLastBoardStateByIdQuery(Guid Id) : IRequest<BoardStateDto>;
 
     /// <summary>
     /// Handler.
@@ -35,7 +27,7 @@ namespace GOL.Application.Queries
 
         public async Task<BoardStateDto> Handle(GetLastBoardStateByIdQuery request, CancellationToken cancellationToken)
         {
-            if (request == null) throw new ArgumentNullException(nameof(request));
+            ArgumentNullException.ThrowIfNull(request, nameof(request));
 
             if (request.Id == Guid.Empty) throw new ValidationException($"{nameof(request.Id)} was not set.");
 

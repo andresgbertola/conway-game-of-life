@@ -36,7 +36,7 @@ namespace GOL.Application.Tests.Commands
         {
             // Arrange: Create a command with an empty BoardId.
             var validator = new UpdateBoardStatusValidator(_configuration);
-            var command = new UpdateBoardStatusCommand(Guid.Empty, iterations: 10, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(Guid.Empty, 10, false);
 
             // Act
             var result = validator.Validate(command);
@@ -53,7 +53,7 @@ namespace GOL.Application.Tests.Commands
         {
             // Arrange: iterations below the minimum (must be at least 1)
             var validator = new UpdateBoardStatusValidator(_configuration);
-            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), iterations, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), iterations, false);
 
             // Act
             var result = validator.Validate(command);
@@ -69,7 +69,7 @@ namespace GOL.Application.Tests.Commands
             // Arrange: iterations above the maximum.
             int iterations = _maxIterations + 1;
             var validator = new UpdateBoardStatusValidator(_configuration);
-            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), iterations, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), iterations, false);
 
             // Act
             var result = validator.Validate(command);
@@ -86,7 +86,7 @@ namespace GOL.Application.Tests.Commands
             int iterations = 500;
             var boardId = Guid.NewGuid();
             var validator = new UpdateBoardStatusValidator(_configuration);
-            var command = new UpdateBoardStatusCommand(boardId, iterations, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(boardId, iterations, false);
 
             // Act
             var result = validator.Validate(command);

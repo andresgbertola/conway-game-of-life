@@ -57,7 +57,7 @@ namespace GOL.Application.Tests
         {
             // Arrange
             var dto = new CreateBoardRequestDto { LiveCells = new List<CellCoordinates> { new(0, 1), new(1, 0) } };
-            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), iterations: 1, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(Guid.NewGuid(), 1, false);
 
             // Setup validator to fail.
             var failedResult = new ValidationResult();
@@ -74,7 +74,7 @@ namespace GOL.Application.Tests
         {
             // Arrange
             var boardId = Guid.NewGuid();
-            var command = new UpdateBoardStatusCommand(boardId, iterations: 1, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(boardId, 1, false);
 
             // Setup repository to return null for GetLatestByBoardIdAsync.
             _repoMock.Setup(r => r.GetLatestByBoardIdAsync(boardId))
@@ -102,7 +102,7 @@ namespace GOL.Application.Tests
             _gameServiceMock.Setup(g => g.ComputeNextGeneration(It.IsAny<List<CellCoordinates>>()))
                             .Returns(emptyLiveCells);
 
-            var command = new UpdateBoardStatusCommand(boardId, iterations: 5, shortCircuitFinalState: true);
+            var command = new UpdateBoardStatusCommand(boardId, 5, true);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -147,7 +147,7 @@ namespace GOL.Application.Tests
             _gameServiceMock.Setup(g => g.ComputeNextGeneration(It.IsAny<List<CellCoordinates>>()))
                             .Returns(emptyLiveCells);
 
-            var command = new UpdateBoardStatusCommand(boardId, iterations: 5, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(boardId, 5, false);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -193,7 +193,7 @@ namespace GOL.Application.Tests
                      .Returns(Task.CompletedTask);
 
             // Create a command with a single iteration and no short-circuit.
-            var command = new UpdateBoardStatusCommand(boardId, iterations: 1, shortCircuitFinalState: false);
+            var command = new UpdateBoardStatusCommand(boardId, 1, false);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -214,7 +214,7 @@ namespace GOL.Application.Tests
             // Arrange: Prepare test inputs.
             var boardId = Guid.NewGuid();
             // Command: Ask for 3 iterations and request early exit if a final state is not reached.
-            var command = new UpdateBoardStatusCommand(boardId, iterations: 3, shortCircuitFinalState: true);
+            var command = new UpdateBoardStatusCommand(boardId, 3, true);
 
             // Set up the validator to return a valid result (no errors).
             var validationResult = new ValidationResult(); // Assuming a valid result when Errors is empty.

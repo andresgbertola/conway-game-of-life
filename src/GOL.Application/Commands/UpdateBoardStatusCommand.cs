@@ -13,19 +13,7 @@ namespace GOL.Application.Commands
     /// <summary>
     /// Command to Update Board Status.
     /// </summary>
-    public class UpdateBoardStatusCommand : IRequest<BoardStateDto>
-    {
-        public Guid BoardId { get; }
-        public long Iterations { get; }
-        public bool ShortCircuitFinalState { get; }
-
-        public UpdateBoardStatusCommand(Guid boardId, long iterations, bool shortCircuitFinalState)
-        {
-            BoardId = boardId;
-            Iterations = iterations;
-            ShortCircuitFinalState = shortCircuitFinalState;
-        }
-    }
+    public sealed record UpdateBoardStatusCommand(Guid BoardId, long Iterations, bool ShortCircuitFinalState) : IRequest<BoardStateDto>;
 
     /// <summary>
     /// Handler.

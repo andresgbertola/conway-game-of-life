@@ -12,29 +12,35 @@ namespace GOL.WebApi.Tests
         {
             builder.ConfigureServices(services =>
             {
-                // Remove the existing DbContext registration.
-                var descriptor = services.SingleOrDefault(
-                    d => d.ServiceType == typeof(DbContextOptions<GOLDbContext>));
-                if (descriptor != null)
+                // Remove all EF Core related services
+                var descriptors = services
+                    .Where(d => d.ServiceType == typeof(DbContextOptions<GOLDbContext>) ||
+                               d.ServiceType == typeof(GOLDbContext))
+                    .ToList();
+
+                foreach (var descriptor in descriptors)
                 {
                     services.Remove(descriptor);
                 }
 
-                // Add DbContext using an in-memory database for testing.
+                // Create a singleton service provider for the in-memory database
+                var inMemoryProvider = new ServiceCollection()
+                    .AddEntityFrameworkInMemoryDatabase()
+                    .BuildServiceProvider();
+
+                // Add DbContext using an in-memory database for testing
                 services.AddDbContext<GOLDbContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase("InMemoryDbForTesting")
+                          .UseInternalServiceProvider(inMemoryProvider);
                 });
 
+                // Initialize the database
                 var sp = services.BuildServiceProvider();
-
-                // Create a scope to initialize the database if needed.
                 using (var scope = sp.CreateScope())
                 {
                     var scopedServices = scope.ServiceProvider;
                     var db = scopedServices.GetRequiredService<GOLDbContext>();
-
-                    // Ensure the database is created.
                     db.Database.EnsureCreated();
                 }
             });

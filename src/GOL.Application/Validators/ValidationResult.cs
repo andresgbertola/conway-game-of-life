@@ -3,7 +3,7 @@
     /// <summary>
     /// Validation Result.
     /// </summary>
-    public class ValidationResult
+    public record ValidationResult
     {
         /// <summary>
         /// List of errors found.

@@ -22,13 +22,6 @@ namespace GOL.Application.Tests
         }
 
         [Fact]
-        public void Constructor_NullDto_ThrowsValidationException()
-        {
-            // Act & Assert: The command constructor should throw a ValidationException if the DTO is null.
-            Assert.Throws<ValidationException>(() => new CreateNewBoardCommand(null));
-        }
-
-        [Fact]
         public void Validate_NullStateInDto_ReturnsError()
         {
             // Arrange: Create a DTO with State = null.

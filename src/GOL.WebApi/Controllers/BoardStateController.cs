@@ -73,7 +73,8 @@ namespace GOL.WebApi.Controllers
         /// <summary>
         /// Advances the board the number of defined steps and returns the new state.
         /// </summary>
-        /// <param name="boardId">Board identifier</param>
+        /// <param name="boardId"></param>
+        /// <param name="steps"></param>
         /// <returns></returns>
         [HttpPost("{boardId}/next/{steps:int}")]
         [ProducesResponseType(typeof(BoardStateDto), StatusCodes.Status200OK)]

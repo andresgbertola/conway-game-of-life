@@ -18,7 +18,7 @@ namespace GOL.Domain.Serializers
             return JsonSerializer.Serialize(cellCoordinates, _cellCoordinatesConverterOptions);
         }
 
-        public static List<CellCoordinates> Deserialize(string json)
+        public static List<CellCoordinates>? Deserialize(string json)
         {
             if (json == null) return null;
 
