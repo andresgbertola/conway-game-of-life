@@ -1,4 +1,4 @@
-﻿namespace GOL.Application.Exceptions
+namespace GOL.Domain.Exceptions
 {
     /// <summary>
     /// Custom Error Exception.

@@ -1,7 +1,7 @@
 ﻿using Moq;
 using GOL.Application.Commands;
 using GOL.Application.DTOs;
-using GOL.Application.Exceptions;
+using GOL.Domain.Exceptions;
 using GOL.Application.Validators;
 using GOL.Domain.Entities;
 using GOL.Domain.Repositories;

@@ -1,4 +1,4 @@
-﻿using GOL.Application.Exceptions;
+﻿using GOL.Domain.Exceptions;
 
 namespace GOL.WebApi.Middlewares
 {

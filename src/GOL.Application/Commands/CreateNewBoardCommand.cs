@@ -1,7 +1,7 @@
 ﻿using GOL.Application.DTOs;
-using GOL.Application.Exceptions;
 using GOL.Application.Validators;
 using GOL.Domain.Entities;
+using GOL.Domain.Exceptions;
 using GOL.Domain.Repositories;
 using MediatR;
 

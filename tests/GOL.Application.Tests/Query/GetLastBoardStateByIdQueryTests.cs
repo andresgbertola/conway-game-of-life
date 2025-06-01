@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Moq;
 using GOL.Application.DTOs;
-using GOL.Application.Exceptions;
+using GOL.Domain.Exceptions;
 using GOL.Application.Queries;
 using GOL.Domain.Entities;
 using GOL.Domain.Repositories;

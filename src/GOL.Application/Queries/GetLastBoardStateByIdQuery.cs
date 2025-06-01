@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using GOL.Application.DTOs;
-using GOL.Application.Exceptions;
+using GOL.Domain.Exceptions;
 using GOL.Domain.Repositories;
 using MediatR;
 

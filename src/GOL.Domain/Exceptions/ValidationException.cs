@@ -1,4 +1,4 @@
-﻿namespace GOL.Application.Exceptions
+namespace GOL.Domain.Exceptions
 {
     /// <summary>
     /// Represents a Validation Exception.

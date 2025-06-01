@@ -1,6 +1,6 @@
 ﻿using GOL.Application.Commands;
 using GOL.Application.DTOs;
-using GOL.Application.Exceptions;
+using GOL.Domain.Exceptions;
 using GOL.Domain.Entities;
 
 namespace GOL.Application.Tests
