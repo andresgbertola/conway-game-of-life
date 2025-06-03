@@ -102,5 +102,23 @@ namespace GOL.WebApi.Controllers
 
             return Ok(response);
         }
+
+        /// <summary>
+        /// Schedules the board state for asynchronous execution.
+        /// </summary>
+        /// <param name="boardId"></param>
+        /// <param name="maxAttempts"></param>
+        /// <returns></returns>
+        [HttpPost("{boardId}/scheduleAsyncExecution")]
+        [ProducesResponseType(typeof(BoardStateDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status422UnprocessableEntity)]
+        public async Task<IActionResult> ScheduleAsyncExecution(Guid boardId)
+        {
+            await _mediator.Send(new ScheduleBoardStateExecutionMessageCommand(boardId));
+
+            return Accepted();
+        }
     }
 }

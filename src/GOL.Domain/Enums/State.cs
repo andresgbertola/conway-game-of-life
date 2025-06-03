@@ -24,5 +24,10 @@
         /// Stable.
         /// </summary>
         Stable = 3,
+
+        /// <summary>
+        /// Infinite.
+        /// </summary>
+        Infinite = 4
     }
 }

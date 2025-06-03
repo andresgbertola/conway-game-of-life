@@ -20,5 +20,15 @@ namespace GOL.Domain.Interfaces
             long iterations, 
             bool shortCircuitFinalState, 
             CancellationToken cancellationToken);
+
+
+        /// <summary>
+        /// Processes board iterations until a final state is reached (e.g., stable, oscillatory, faded away, or infinite).
+        /// </summary>
+        /// <param name="boardId">The board identifier to process.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        Task ProcessBoardIterationsUntilEndAsync(Guid boardId,
+            CancellationToken cancellationToken);
     }
 }

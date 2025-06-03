@@ -11,12 +11,19 @@ namespace GOL.Domain.Services
         private readonly IBoardStateRepository _boardStateRepository;
         private readonly IGameOfLifeService _gameOfLifeService;
 
+        const int MaxAttemptsToDeclareItInfinite = 10000;
+
         public BoardStateProcessingService(
             IBoardStateRepository boardStateRepository,
             IGameOfLifeService gameOfLifeService)
         {
             _boardStateRepository = boardStateRepository;
             _gameOfLifeService = gameOfLifeService;
+        }
+
+        public async Task ProcessBoardIterationsUntilEndAsync(Guid boardId, CancellationToken cancellationToken)
+        {
+            await ProcessBoardIterationsAsync(boardId, MaxAttemptsToDeclareItInfinite, true, cancellationToken);
         }
 
         public async Task<BoardState> ProcessBoardIterationsAsync(
@@ -60,6 +67,10 @@ namespace GOL.Domain.Services
                         {
                             long period = newBoardState.Iteration - previousState!.Iteration;
                             newBoardState.Status = (period == 1) ? State.Stable : State.Oscillatory;
+                        }
+                        else if (newBoardState.Iteration == MaxAttemptsToDeclareItInfinite)
+                        {
+                            newBoardState.Status = State.Infinite;
                         }
                     }                    
                 }
