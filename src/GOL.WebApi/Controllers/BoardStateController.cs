@@ -110,10 +110,9 @@ namespace GOL.WebApi.Controllers
         /// <param name="maxAttempts"></param>
         /// <returns></returns>
         [HttpPost("{boardId}/scheduleAsyncExecution")]
-        [ProducesResponseType(typeof(BoardStateDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiError), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiError), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ApiError), StatusCodes.Status202Accepted)]
         public async Task<IActionResult> ScheduleAsyncExecution(Guid boardId)
         {
             await _mediator.Send(new ScheduleBoardStateExecutionMessageCommand(boardId));
